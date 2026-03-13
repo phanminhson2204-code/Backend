@@ -1,16 +1,17 @@
-FROM php:8.2-cli
+FROM php:8.2
 
-WORKDIR /app
+WORKDIR /var/www
 
 RUN apt-get update && apt-get install -y \
-git \
-curl \
-zip \
-unzip \
-libzip-dev \
-libonig-dev
+    git \
+    curl \
+    zip \
+    unzip \
+    libzip-dev \
+    libonig-dev \
+    libpng-dev
 
-RUN docker-php-ext-install pdo pdo_mysql mbstring zip
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -18,7 +19,7 @@ COPY . .
 
 RUN cp .env.example .env
 
-RUN composer install
+RUN composer install --no-dev --optimize-autoloader
 
 RUN php artisan key:generate
 
