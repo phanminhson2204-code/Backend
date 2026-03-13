@@ -8,22 +8,17 @@ curl \
 zip \
 unzip \
 libzip-dev \
-libonig-dev \
-libpng-dev
+libonig-dev
 
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
+RUN docker-php-ext-install pdo_mysql mbstring zip
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-COPY composer.json composer.lock ./
-
-RUN composer install --no-dev --no-scripts --no-autoloader
 
 COPY . .
 
 RUN cp .env.example .env
 
-RUN composer dump-autoload
+RUN composer install
 
 RUN php artisan key:generate
 
