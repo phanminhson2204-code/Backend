@@ -22,4 +22,4 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 EXPOSE 10000
 
 # Lệnh CMD mới: Tự tạo file .env trống nếu chưa có, sau đó mới chạy Laravel
-CMD sh -c "touch .env && php artisan key:generate --force && php artisan config:clear && php artisan serve --host=0.0.0.0 --port=10000"
+CMD php artisan config:clear && php artisan cache:clear && php artisan serve --host=0.0.0.0 --port=10000
