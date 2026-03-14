@@ -21,7 +21,3 @@ Route::get('/users/{id}', [UserController::class, 'show']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/users', function () {
-    // Lệnh này sẽ đọc toàn bộ dữ liệu từ bảng 'users' trong database
-    return User::all(); 
-});
