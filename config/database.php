@@ -45,7 +45,6 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'forge'),
@@ -58,9 +57,10 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => (extension_loaded('pdo_mysql') && env('MYSQL_ATTR_SSL_CA')) ? [
-            PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA') === 'true' ? true : env('MYSQL_ATTR_SSL_CA'),
-            ] : [],
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+            PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false, // Tắt xác thực cert để dễ kết nối
+            ]) : [],
         ],
 
         'pgsql' => [
